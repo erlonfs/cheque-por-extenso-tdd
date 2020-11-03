@@ -10,40 +10,76 @@ namespace NullBank.Domain
 		public Cheque(decimal valor)
 		{
 			Valor = valor;
+			ValorPorExtenso = ObterValorPorExtenso(valor);
+		}
+
+		private string ObterValorPorExtenso(decimal valor)
+		{
+			var moeda = "Real";
+
+			if(valor > 1)
+			{
+				moeda = "Reais";
+			}
+
+			return $"{ObterDezena(valor)}{ObterUnidade(valor)} {moeda}";
+		}
+
+		private string ObterUnidade(decimal valor)
+		{
+			if (valor < 1) return string.Empty;
+			if (valor > 9) return string.Empty;
 
 			switch (valor)
 			{
 				case 1:
-					ValorPorExtenso = "Um Real";
-					break;
+					return "Um";
 				case 2:
-					ValorPorExtenso = "Dois Reais";
-					break;
+					return "Dois";
 				case 3:
-					ValorPorExtenso = "Três Reais";
-					break;
+					return "Três";
 				case 4:
-					ValorPorExtenso = "Quatro Reais";
-					break;
+					return "Quatro";
 				case 5:
-					ValorPorExtenso = "Cinco Reais";
-					break;
+					return "Cinco";
 				case 6:
-					ValorPorExtenso = "Seis Reais";
-					break;
+					return "Seis";
 				case 7:
-					ValorPorExtenso = "Sete Reais";
-					break;
+					return "Sete";
 				case 8:
-					ValorPorExtenso = "Oito Reais";
-					break;
+					return "Oito";
 				case 9:
-					ValorPorExtenso = "Nove Reais";
-					break;
+					return "Nove";
 				default:
-					break;
+					return string.Empty;
 			}
+		}
 
+		private string ObterDezena(decimal valor)
+		{
+			switch (valor / 10)
+			{
+				case 1:
+					return "Dez";
+				case 2:
+					return "Vinte";
+				case 3:
+					return "Trinta";
+				case 4:
+					return "Quarenta";
+				case 5:
+					return "Cinquenta";
+				case 6:
+					return "Sessenta";
+				case 7:
+					return "Setenta";
+				case 8:
+					return "Oitenta";
+				case 9:
+					return "Noventa";
+				default:
+					return string.Empty;
+			}
 		}
 
 	}
