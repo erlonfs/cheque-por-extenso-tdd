@@ -22,15 +22,29 @@ namespace NullBank.Domain
 				moeda = "Reais";
 			}
 
-			return $"{ObterDezena(valor)}{ObterUnidade(valor)} {moeda}";
+			var dezena = ObterDezena(valor);
+			var unidade = ObterUnidade(valor);
+
+			if (!string.IsNullOrWhiteSpace(dezena) && !string.IsNullOrWhiteSpace(unidade))
+			{
+				dezena += " e ";
+			}
+
+			return $"{dezena}{unidade} {moeda}";
 		}
 
 		private string ObterUnidade(decimal valor)
 		{
-			if (valor < 1) return string.Empty;
-			if (valor > 9) return string.Empty;
+			var text = valor.ToString().ToCharArray();
+			var unidade = Int32.Parse(text[text.Length - 1].ToString());
 
-			switch (valor)
+			if(text.Length > 1)
+			{
+				var dezena = Int32.Parse(text[text.Length - 2].ToString());
+				if (dezena == 1) return string.Empty;
+			}
+
+			switch (unidade)
 			{
 				case 1:
 					return "Um";
@@ -57,10 +71,15 @@ namespace NullBank.Domain
 
 		private string ObterDezena(decimal valor)
 		{
-			switch (valor / 10)
+			var text = valor.ToString().ToCharArray();
+			if (text.Length < 2) return string.Empty;
+
+			var dezena = Int32.Parse(text[text.Length - 2].ToString());
+
+			switch (dezena)
 			{
 				case 1:
-					return "Dez";
+					return ObterUnidadeDezena(valor);
 				case 2:
 					return "Vinte";
 				case 3:
@@ -80,6 +99,39 @@ namespace NullBank.Domain
 				default:
 					return string.Empty;
 			}
+		}
+
+		private string ObterUnidadeDezena(decimal valor)
+		{
+			var text = valor.ToString().ToCharArray();
+			var unidadeDezena = Int32.Parse(text[text.Length - 1].ToString());
+
+			switch (unidadeDezena)
+			{
+				case 0:
+					return "Dez";
+				case 1:
+					return "Onze";
+				case 2:
+					return "Doze";
+				case 3:
+					return "Treze";
+				case 4:
+					return "Quatorze";
+				case 5:
+					return "Quinze";
+				case 6:
+					return "Dezesseis";
+				case 7:
+					return "Dezessete";
+				case 8:
+					return "Dezoito";
+				case 9:
+					return "Dezenove";
+				default:
+					return string.Empty;
+			}
+
 		}
 
 	}
