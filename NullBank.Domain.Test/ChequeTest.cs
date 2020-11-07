@@ -85,5 +85,41 @@ namespace NullBank.Domain.Test
 			cheque.ValorPorExtenso.Should().Be(valorPorExtenso);
 
 		}
+
+		[Theory]
+		[InlineData(100, "Cem Reais")]
+		[InlineData(200, "Duzentos Reais")]
+		[InlineData(300, "Trezentos Reais")]
+		[InlineData(400, "Quatrocentos Reais")]
+		[InlineData(500, "Quinhentos Reais")]
+		[InlineData(600, "Seiscentos Reais")]
+		[InlineData(700, "Setecentos Reais")]
+		[InlineData(800, "Oitocentos Reais")]
+		[InlineData(900, "Novecentos Reais")]
+		public void Quando_for__centenas__devera_constar_valores_corretamente(decimal valor, string valorPorExtenso)
+		{
+			var cheque = new Cheque(valor);
+
+			cheque.Valor.Should().Be(valor);
+			cheque.ValorPorExtenso.Should().Be(valorPorExtenso);
+
+		}
+
+		[Theory]
+		[InlineData(1000, "Um Mil Reais")]
+		[InlineData(10000, "Dez Mil Reais")]
+		[InlineData(100000, "Cem Mil Reais")]
+		[InlineData(1000000, "Um Milhão de Reais")]
+		[InlineData(10000000, "Dez Milhões de Reais")]
+		[InlineData(100000000, "Cem Milhões de Reais")]
+		[InlineData(1000000000, "Um Bilhão de Reais")]
+		public void Quando_for__do_mil_ao_bilhao_constar_valores_corretamente(decimal valor, string valorPorExtenso)
+		{
+			var cheque = new Cheque(valor);
+
+			cheque.Valor.Should().Be(valor);
+			cheque.ValorPorExtenso.Should().Be(valorPorExtenso);
+
+		}
 	}
 }
