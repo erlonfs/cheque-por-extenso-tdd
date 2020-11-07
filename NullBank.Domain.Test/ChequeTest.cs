@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using System;
 using Xunit;
 
 namespace NullBank.Domain.Test
@@ -63,6 +62,21 @@ namespace NullBank.Domain.Test
 		[InlineData(27, "Vinte e Sete Reais")]
 		[InlineData(28, "Vinte e Oito Reais")]
 		[InlineData(29, "Vinte e Nove Reais")]
+		[InlineData(31, "Trinta e Um Reais")]
+		[InlineData(41, "Quarenta e Um Reais")]
+		[InlineData(51, "Cinquenta e Um Reais")]
+		[InlineData(61, "Sessenta e Um Reais")]
+		[InlineData(71, "Setenta e Um Reais")]
+		[InlineData(81, "Oitenta e Um Reais")]
+		[InlineData(91, "Noventa e Um Reais")]
+		[InlineData(92, "Noventa e Dois Reais")]
+		[InlineData(93, "Noventa e Três Reais")]
+		[InlineData(94, "Noventa e Quatro Reais")]
+		[InlineData(95, "Noventa e Cinco Reais")]
+		[InlineData(96, "Noventa e Seis Reais")]
+		[InlineData(97, "Noventa e Sete Reais")]
+		[InlineData(98, "Noventa e Oito Reais")]
+		[InlineData(99, "Noventa e Nove Reais")]
 		public void Quando_for__dezena_e_unidade__devera_constar_valores_corretamente(decimal valor, string valorPorExtenso)
 		{
 			var cheque = new Cheque(valor);
