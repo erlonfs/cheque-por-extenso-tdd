@@ -19,8 +19,8 @@
 			_unidade = int.Parse(text[text.Length - 1].ToString());//0
 			_dezena = text.Length >= 2 ? int.Parse(text.Substring(text.Length - 2, 2).ToString()) : 0;//00
 			_centena = text.Length >= 3 ? int.Parse(text.Substring(text.Length - 3, 3).ToString()) : 0;//000
-			_milhar = text.Length >= 6 ? int.Parse(text.Substring(text.Length - 6, 6).ToString()) : 0;//000000
-			_milhao = text.Length >= 9 ? int.Parse(text.Substring(text.Length - 9, 9).ToString()) : 0;//000000000
+			_milhar = text.Length >= 4 && text.Length <= 6 ? int.Parse(text.Substring(0, text.Length).ToString()) : 0;//000000
+			_milhao = text.Length >= 7 ? int.Parse(text.Substring(text.Length - 7, 7).ToString()) : 0;//000000000
 			_bilhao = text.Length >= 13 ? int.Parse(text.Substring(text.Length - 13, 13).ToString()) : 0;//0000000000000
 
 			Valor = valor;
@@ -39,8 +39,8 @@
 			var unidadePorExtenso = ObterUnidade(_unidade);
 			var dezenaPorExtenso = ObterDezena(_dezena);
 			var centenaPorExtenso = ObterCentena(_centena);
-			var milharPorExtenso = ObterMilhar();
-			var milhaoPorExtenso = ObterMilhao();
+			var milharPorExtenso = ObterMilhar(_milhar);
+			var milhaoPorExtenso = ObterMilhao(_milhao);
 			var bilhaoPorExtenso = ObterBilhao();
 
 			var valorPorExtenso = $"{bilhaoPorExtenso}{milhaoPorExtenso}{milharPorExtenso}{centenaPorExtenso}{dezenaPorExtenso}";
@@ -147,7 +147,12 @@
 
 		private string ObterCentena(int centena)
 		{
-			switch (centena)
+			if (centena <= 0) return string.Empty;
+
+			var text = centena.ToString().ToCharArray();
+			var centenaUnidade = int.Parse(text[text.Length - 3].ToString());//000
+
+			switch (centenaUnidade)
 			{
 				case 1:
 					return "Cem";
@@ -172,34 +177,38 @@
 			}
 		}
 		
-		private string ObterMilhar()
+		private string ObterMilhar(int milhar)
 		{
-			if (_milhar <= 0) return string.Empty;
+			if (milhar <= 0) return string.Empty;
 
-			var text = _milhar.ToString().ToCharArray();
+			var text = milhar.ToString();
+			var milharUnidade = int.Parse(text.Substring(text.Length - 4, 1).ToString());//[0]000
+			var milharDezena = text.Length >= 5 ? int.Parse(text.Substring(text.Length - 5, 2).ToString()) : 0;//00[0]0
+			var milharCentena = text.Length >= 6 ? int.Parse(text.Substring(text.Length - 6, 3).ToString()) : 0;//000000
 
-			var unidade = int.Parse(text[text.Length - 1].ToString());//0
-			var dezena = text.Length >= 2 ? int.Parse(text[text.Length - 2].ToString()) : 0;//00
-			var centena = text.Length >= 3 ? int.Parse(text[text.Length - 3].ToString()) : 0;//000
+			var unidadePorExtenso = ObterUnidade(milharUnidade);
+			var dezenaPorExtenso = ObterDezena(milharDezena);
+			var centenaPorExtenso = ObterCentena(milharCentena);
 
-			var unidadePorExtenso = ObterUnidade(unidade);
-
-			return $"{unidadePorExtenso} Mil";
+			return $"{centenaPorExtenso}{dezenaPorExtenso}{unidadePorExtenso} Mil";
 
 		}
 
 
-		private string ObterMilhao()
+		private string ObterMilhao(int milhao)
 		{
-			if (_milhao <= 0) return string.Empty;
+			if (milhao <= 0) return string.Empty;
 
-			switch (_milhar)
-			{
-				case 1:
-					return "Milhão";
-				default:
-					return string.Empty;
-			}
+			var text = milhao.ToString();
+			var milhaoUnidade = int.Parse(text.Substring(text.Length - 7, 1).ToString());//1000000
+			var milhaoDezena = text.Length >= 8 ? int.Parse(text.Substring(text.Length - 8, 2).ToString()) : 0;//00[0]0
+			var milhaoCentena = text.Length >= 9 ? int.Parse(text.Substring(text.Length - 9, 3).ToString()) : 0;//000000
+
+			var unidadePorExtenso = ObterUnidade(milhaoUnidade);
+			var dezenaPorExtenso = ObterDezena(milhaoDezena);
+			var centenaPorExtenso = ObterCentena(milhaoCentena);
+
+			return $"{centenaPorExtenso}{dezenaPorExtenso}{unidadePorExtenso} Milhão de";
 		}
 
 		private string ObterBilhao()
