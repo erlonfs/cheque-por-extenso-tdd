@@ -6,7 +6,11 @@
 		public string ValorPorExtenso { get; }
 
 		private int _unidade = 0;
+		private int _unidadeDeCentavos = 0;
+
 		private int _dezena = 0;
+		private int _dezenaDeCentavos = 0;
+
 		private int _centena = 0;
 		private int _milhar = 0;
 		private int _milhao = 0;
@@ -15,6 +19,21 @@
 		public Cheque(decimal valor)
 		{
 			var text = valor.ToString();
+			var textCentavos = string.Empty;
+
+			if (text.Contains(","))
+			{
+				textCentavos = text.Split(',')[1];
+				text = text.Split(',')[0];
+
+				if(textCentavos.Length == 1)
+				{
+					textCentavos += "0";
+				}
+
+				_unidadeDeCentavos = int.Parse(textCentavos[textCentavos.Length - 1].ToString());//0
+				_dezenaDeCentavos = textCentavos.Length >= 2 ? int.Parse(textCentavos.Substring(textCentavos.Length - 2, 2).ToString()) : 0;//00
+			}
 
 			_unidade = int.Parse(text[text.Length - 1].ToString());//0
 			_dezena = text.Length >= 2 ? int.Parse(text.Substring(text.Length - 2, 2).ToString()) : 0;//00
@@ -42,15 +61,46 @@
 			var milharPorExtenso = ObterMilhar(_milhar);
 			var milhaoPorExtenso = ObterMilhao(_milhao);
 			var bilhaoPorExtenso = ObterBilhao(_bilhao);
+			var centavosPorExtenso = ObterCentavos();
 
 			var valorPorExtenso = $"{bilhaoPorExtenso}{milhaoPorExtenso}{milharPorExtenso}{centenaPorExtenso}{dezenaPorExtenso}";
 
 			if (string.IsNullOrWhiteSpace(valorPorExtenso))
 			{
 				valorPorExtenso = $"{unidadePorExtenso}";
+
+				if (string.IsNullOrWhiteSpace(unidadePorExtenso))
+				{
+					valorPorExtenso = $"{centavosPorExtenso}";
+
+					return valorPorExtenso;
+				}
 			}
 
 			return $"{valorPorExtenso} {moeda}";
+		}
+
+		private string ObterCentavos()
+		{
+			if(_unidadeDeCentavos > 0)
+			{
+				var centavoText = "Centavo";
+
+				if(_unidadeDeCentavos > 1)
+				{
+					centavoText = "Centavos";
+				}
+
+				return $"{ObterUnidade(_unidadeDeCentavos)} {centavoText}";
+			}
+
+			if (_dezenaDeCentavos > 0)
+			{
+				return $"{ObterDezena(_dezenaDeCentavos)} Centavos";
+			}
+
+			return string.Empty;
+
 		}
 
 		private string ObterUnidade(int unidade)

@@ -6,6 +6,43 @@ namespace NullBank.Domain.Test
 	public class ChequeTest
 	{
 		[Theory]
+		[InlineData(0.01, "Um Centavo")]
+		[InlineData(0.02, "Dois Centavos")]
+		[InlineData(0.03, "Três Centavos")]
+		[InlineData(0.04, "Quatro Centavos")]
+		[InlineData(0.05, "Cinco Centavos")]
+		[InlineData(0.06, "Seis Centavos")]
+		[InlineData(0.07, "Sete Centavos")]
+		[InlineData(0.08, "Oito Centavos")]
+		[InlineData(0.09, "Nove Centavos")]
+		public void Quando_for__unidade_de_centavos__devera_constar_valores_corretamente(decimal valor, string valorPorExtenso)
+		{
+			var cheque = new Cheque(valor);
+
+			cheque.Valor.Should().Be(valor);
+			cheque.ValorPorExtenso.Should().Be(valorPorExtenso);
+		}
+
+		[Theory]
+		[InlineData(0.10, "Dez Centavos")]
+		[InlineData(0.20, "Vinte Centavos")]
+		[InlineData(0.30, "Trinta Centavos")]
+		[InlineData(0.40, "Quarenta Centavos")]
+		[InlineData(0.50, "Cinquenta Centavos")]
+		[InlineData(0.60, "Sessenta Centavos")]
+		[InlineData(0.70, "Setenta Centavos")]
+		[InlineData(0.80, "Oitenta Centavos")]
+		[InlineData(0.90, "Noventa Centavos")]
+		public void Quando_for__dezena_de_centavos__devera_constar_valores_corretamente(decimal valor, string valorPorExtenso)
+		{
+			var cheque = new Cheque(valor);
+
+			cheque.Valor.Should().Be(valor);
+			cheque.ValorPorExtenso.Should().Be(valorPorExtenso);
+
+		}
+
+		[Theory]
 		[InlineData(1, "Um Real")]
 		[InlineData(2, "Dois Reais")]
 		[InlineData(3, "Três Reais")]
@@ -88,6 +125,9 @@ namespace NullBank.Domain.Test
 
 		[Theory]
 		[InlineData(100, "Cem Reais")]
+		[InlineData(101, "Cento e Um Reais")]
+		[InlineData(110, "Cento e Dez Reais")]
+		[InlineData(111, "Cento e Onze Reais")]
 		[InlineData(200, "Duzentos Reais")]
 		[InlineData(300, "Trezentos Reais")]
 		[InlineData(400, "Quatrocentos Reais")]
@@ -97,6 +137,40 @@ namespace NullBank.Domain.Test
 		[InlineData(800, "Oitocentos Reais")]
 		[InlineData(900, "Novecentos Reais")]
 		public void Quando_for__centenas__devera_constar_valores_corretamente(decimal valor, string valorPorExtenso)
+		{
+			var cheque = new Cheque(valor);
+
+			cheque.Valor.Should().Be(valor);
+			cheque.ValorPorExtenso.Should().Be(valorPorExtenso);
+
+		}
+
+		[Theory]
+		[InlineData(1000, "Um Mil Reais")]
+		[InlineData(1001, "Um Mil e Um Reais")]
+		[InlineData(2000, "Dois Mil Reais")]
+		[InlineData(2222, "Dois Mil e Duzentos e Vinte e Dois Reais")]
+		[InlineData(2011, "Dois Mil e Onze Reais")]
+		[InlineData(10000, "Dez Mil Reais")]
+		[InlineData(11000, "Onze Mil Reais")]
+		[InlineData(99000, "Noventa e Nove Mil Reais")]
+		public void Quando_for__milhar__devera_constar_valores_corretamente(decimal valor, string valorPorExtenso)
+		{
+			var cheque = new Cheque(valor);
+
+			cheque.Valor.Should().Be(valor);
+			cheque.ValorPorExtenso.Should().Be(valorPorExtenso);
+
+		}
+
+		[Theory]
+		[InlineData(1000000, "Um Milhão de Reais")]
+		[InlineData(2000000, "Dois Milhões de Reais")]
+		[InlineData(10000000, "Dez Milhões de Reais")]
+		[InlineData(11000000, "Onze Milhões de Reais")]
+		[InlineData(100000000, "Cem Milhões de Reais")]
+		[InlineData(101293114, "Cento e Um e Duzentos e Noventa e Três e Cento e Quatorze Milhões de Reais")]
+		public void Quando_for__milhao__devera_constar_valores_corretamente(decimal valor, string valorPorExtenso)
 		{
 			var cheque = new Cheque(valor);
 
