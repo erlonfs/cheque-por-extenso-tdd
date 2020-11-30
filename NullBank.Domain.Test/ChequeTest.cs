@@ -169,7 +169,7 @@ namespace NullBank.Domain.Test
 		[InlineData(10000000, "Dez Milhões de Reais")]
 		[InlineData(11000000, "Onze Milhões de Reais")]
 		[InlineData(100000000, "Cem Milhões de Reais")]
-		[InlineData(101293114, "Cento e Um e Duzentos e Noventa e Três e Cento e Quatorze Milhões de Reais")]
+		[InlineData(101293114, "Cento e Um Milhões e Duzentos e Noventa e Três Mil e Cento e Quatorze Reais")]
 		public void Quando_for__milhao__devera_constar_valores_corretamente(decimal valor, string valorPorExtenso)
 		{
 			var cheque = new Cheque(valor);
