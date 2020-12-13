@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using System;
 using Xunit;
 
 namespace NullBank.Domain.Test
@@ -210,7 +211,9 @@ namespace NullBank.Domain.Test
 		[InlineData(150.41, "Cento e Cinquenta Reais e Quarenta e Um Centavos")]
 		[InlineData(93.03, "Noventa e Três Reais e Três Centavos")]
 		[InlineData(1199841.09, "Um Milhão e Cento e Noventa e Nove Mil e Oitocentos e Quarenta e Um Reais e Nove Centavos")]
-		public void Quando_for__numero_completo_com_centavos__devera_constar_valores_corretamente(decimal valor, string valorPorExtenso)
+		[InlineData(101000, "Cento e Um Mil Reais")]
+		[InlineData(1000001, "Um Milhão e Um Reais")]
+		public void Quando_for__numeros_diversos__devera_constar_valores_corretamente(decimal valor, string valorPorExtenso)
 		{
 			var cheque = new Cheque(valor);
 
@@ -218,5 +221,16 @@ namespace NullBank.Domain.Test
 			cheque.ValorPorExtenso.Should().Be(valorPorExtenso);
 
 		}
+
+		[Theory]
+		[InlineData(-1)]
+		[InlineData(0)]
+		[InlineData(1000000001)]
+		public void Quando_criar_um_cheque__com_valores_invalidos__devera_lancar_erro(long valor)
+		{
+			Action action = () => new Cheque(valor);
+			action.Should().Throw<ArgumentOutOfRangeException>().And.ParamName.Should().Be("valor");
+		}
+
 	}
 }
