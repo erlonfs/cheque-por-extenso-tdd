@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NullBank.Domain", "NullBank.Domain\NullBank.Domain.csproj", "{C19932B0-254D-48E0-8AA2-9A1EEC05857C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NullBank.Domain", "NullBank.Domain\NullBank.Domain.csproj", "{C19932B0-254D-48E0-8AA2-9A1EEC05857C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NullBank.Domain.Test", "NullBank.Domain.Test\NullBank.Domain.Test.csproj", "{629F5EE7-F7CC-4DDC-ABA2-3B3077F9057F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NullBank.Domain.Test", "NullBank.Domain.Test\NullBank.Domain.Test.csproj", "{629F5EE7-F7CC-4DDC-ABA2-3B3077F9057F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NullBank.ConsoleApp", "NullBank.ConsoleApp\NullBank.ConsoleApp.csproj", "{F3283AB9-EA43-4174-B524-5AE6DA6DD767}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{629F5EE7-F7CC-4DDC-ABA2-3B3077F9057F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{629F5EE7-F7CC-4DDC-ABA2-3B3077F9057F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{629F5EE7-F7CC-4DDC-ABA2-3B3077F9057F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3283AB9-EA43-4174-B524-5AE6DA6DD767}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3283AB9-EA43-4174-B524-5AE6DA6DD767}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3283AB9-EA43-4174-B524-5AE6DA6DD767}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3283AB9-EA43-4174-B524-5AE6DA6DD767}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
