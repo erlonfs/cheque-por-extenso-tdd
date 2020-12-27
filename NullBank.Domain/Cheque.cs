@@ -32,7 +32,8 @@
 				}
 
 				_unidadeDeCentavos = int.Parse(textCentavos[textCentavos.Length - 1].ToString());//0
-				_dezenaDeCentavos = textCentavos.Length >= 2 ? int.Parse(textCentavos.Substring(textCentavos.Length - 2, 2).ToString()) : 0;//00
+				_dezenaDeCentavos = int.Parse(textCentavos[textCentavos.Length - 2].ToString()) > 0 ? int.Parse(textCentavos.Substring(textCentavos.Length - 2, 2).ToString()) : 0;//00
+
 			}
 
 			_unidade = int.Parse(text[text.Length - 1].ToString());//0
@@ -55,7 +56,22 @@
 
 			if (valor > 1)
 			{
-				moeda = "Reais";
+				var text = valor.ToString();
+				if (text.Contains(","))
+				{
+					var valorAux = int.Parse(text.Split(',')[0]);
+					if (valorAux > 1)
+					{
+						moeda = "Reais";
+					}
+
+				}
+				else
+				{
+					moeda = "Reais";
+				}
+
+				
 			}
 
 			var unidadePorExtenso = ObterUnidade(_unidade);
@@ -100,11 +116,21 @@
 				}
 			}
 
+			if (!string.IsNullOrWhiteSpace(centavosPorExtenso))
+			{
+				return $"{valorPorExtenso} {moeda} e {centavosPorExtenso}";
+			}
+
 			return $"{valorPorExtenso} {moeda}";
 		}
 
 		private string ObterCentavos()
 		{
+			if (_dezenaDeCentavos > 0)
+			{
+				return $"{ObterDezena(_dezenaDeCentavos)} Centavos";
+			}
+
 			if (_unidadeDeCentavos > 0)
 			{
 				var centavoText = "Centavo";
@@ -115,11 +141,6 @@
 				}
 
 				return $"{ObterUnidade(_unidadeDeCentavos)} {centavoText}";
-			}
-
-			if (_dezenaDeCentavos > 0)
-			{
-				return $"{ObterDezena(_dezenaDeCentavos)} Centavos";
 			}
 
 			return string.Empty;
@@ -312,6 +333,13 @@
 			var centenaPorExtenso = ObterCentena(centena);
 			var unidadeCentenaPorExtenso = ObterUnidade(unidadeCentena);
 
+			var preposicao = " de";
+
+			if(_milhar > 0 || _centena > 0 || _dezena > 0 || _unidade > 0)
+			{
+				preposicao = string.Empty;
+			}
+
 			if (unidade > 1 || dezena > 0 || centena > 0)
 			{
 				if (unidadeCentena > 0)
@@ -319,10 +347,10 @@
 					return $"{centenaPorExtenso} e {unidadeCentenaPorExtenso} Milhões";
 				}
 
-				return $"{centenaPorExtenso}{dezenaPorExtenso}{unidadePorExtenso} Milhões de";
+				return $"{centenaPorExtenso}{dezenaPorExtenso}{unidadePorExtenso} Milhões{preposicao}";
 			}
 
-			return $"{centenaPorExtenso}{dezenaPorExtenso}{unidadePorExtenso} Milhão de";
+			return $"{centenaPorExtenso}{dezenaPorExtenso}{unidadePorExtenso} Milhão{preposicao}";
 		}
 
 		private string ObterBilhao(int bilhao)

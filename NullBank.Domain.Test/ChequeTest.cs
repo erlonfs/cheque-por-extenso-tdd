@@ -25,6 +25,15 @@ namespace NullBank.Domain.Test
 
 		[Theory]
 		[InlineData(0.10, "Dez Centavos")]
+		[InlineData(0.11, "Onze Centavos")]
+		[InlineData(0.12, "Doze Centavos")]
+		[InlineData(0.13, "Treze Centavos")]
+		[InlineData(0.14, "Quatorze Centavos")]
+		[InlineData(0.15, "Quinze Centavos")]
+		[InlineData(0.16, "Dezesseis Centavos")]
+		[InlineData(0.17, "Dezessete Centavos")]
+		[InlineData(0.18, "Dezoito Centavos")]
+		[InlineData(0.19, "Dezenove Centavos")]
 		[InlineData(0.20, "Vinte Centavos")]
 		[InlineData(0.30, "Trinta Centavos")]
 		[InlineData(0.40, "Quarenta Centavos")]
@@ -188,6 +197,20 @@ namespace NullBank.Domain.Test
 		[InlineData(100000000, "Cem Milhões de Reais")]
 		[InlineData(1000000000, "Um Bilhão de Reais")]
 		public void Quando_for__do_mil_ao_bilhao_constar_valores_corretamente(decimal valor, string valorPorExtenso)
+		{
+			var cheque = new Cheque(valor);
+
+			cheque.Valor.Should().Be(valor);
+			cheque.ValorPorExtenso.Should().Be(valorPorExtenso);
+
+		}
+
+		[Theory]
+		[InlineData(1.21, "Um Real e Vinte e Um Centavos")]
+		[InlineData(150.41, "Cento e Cinquenta Reais e Quarenta e Um Centavos")]
+		[InlineData(93.03, "Noventa e Três Reais e Três Centavos")]
+		[InlineData(1199841.09, "Um Milhão e Cento e Noventa e Nove Mil e Oitocentos e Quarenta e Um Reais e Nove Centavos")]
+		public void Quando_for__numero_completo_com_centavos__devera_constar_valores_corretamente(decimal valor, string valorPorExtenso)
 		{
 			var cheque = new Cheque(valor);
 
