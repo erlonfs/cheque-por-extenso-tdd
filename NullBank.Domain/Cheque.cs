@@ -1,4 +1,6 @@
-﻿namespace NullBank.Domain
+﻿using System;
+
+namespace NullBank.Domain
 {
 	public class Cheque
 	{
@@ -18,6 +20,9 @@
 
 		public Cheque(decimal valor)
 		{
+			if (valor <= 0) throw new ArgumentOutOfRangeException(nameof(valor));
+			if (valor > 1000000000) throw new ArgumentOutOfRangeException(nameof(valor));
+
 			var text = valor.ToString();
 			var textCentavos = string.Empty;
 
@@ -42,7 +47,7 @@
 
 			var textMilhar = text.PadLeft(6, '0');
 
-			_milhar = int.Parse(textMilhar.Substring(0, 3)) > 0 ? int.Parse(textMilhar.Substring(textMilhar.Length - 6, 6).ToString()) : 0;//000000
+			_milhar = int.Parse(textMilhar.Substring(textMilhar.Length - 6, 6)) >= 1000 ? int.Parse(textMilhar.Substring(textMilhar.Length - 6, 6).ToString()) : 0;//000000
 			_milhao = text.Length >= 7 && text.Length <= 9 ? int.Parse(text) : 0;//000.000.000
 			_bilhao = text.Length >= 10 ? int.Parse(text) : 0;//0.000.000.000
 
@@ -285,7 +290,7 @@
 
 			var text = milhar.ToString();
 			var milharUnidade = int.Parse(text.Substring(text.Length - 4, 1).ToString());//[0]000
-			var milharDezena = text.Length >= 5 ? int.Parse(text.Substring(text.Length - 5, 2).ToString()) : 0;//00[0]0
+			var milharDezena = text.Length >= 5 && int.Parse(text.Substring(text.Length - 5, 1).ToString()) > 0 ? int.Parse(text.Substring(text.Length - 5, 2).ToString()) : 0;//00[0]0
 			var milharCentena = text.Length >= 6 ? int.Parse(text.Substring(text.Length - 6, 3).ToString()) : 0;//000000
 
 			var unidadePorExtenso = ObterUnidade(milharUnidade);
@@ -297,6 +302,11 @@
 				if(milharDezena > 0)
 				{
 					return $"{centenaPorExtenso} e {dezenaPorExtenso} Mil";
+				}
+
+				if (milharUnidade > 0)
+				{
+					return $"{centenaPorExtenso} e {unidadePorExtenso} Mil";
 				}
 
 				return $"{centenaPorExtenso} Mil";
