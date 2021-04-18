@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace NullBank.Domain
 {
@@ -18,6 +19,8 @@ namespace NullBank.Domain
 		private int _milhao = 0;
 		private int _bilhao = 0;
 
+		private string numberDecimalSeparator => CultureInfo.CurrentUICulture.NumberFormat.NumberDecimalSeparator;
+
 		public Cheque(decimal valor)
 		{
 			if (valor <= 0) throw new ArgumentOutOfRangeException(nameof(valor));
@@ -26,10 +29,10 @@ namespace NullBank.Domain
 			var text = valor.ToString();
 			var textCentavos = string.Empty;
 
-			if (text.Contains(","))
+			if (text.Contains(numberDecimalSeparator))
 			{
-				textCentavos = text.Split(',')[1];
-				text = text.Split(',')[0];
+				textCentavos = text.Split(numberDecimalSeparator)[1];
+				text = text.Split(numberDecimalSeparator)[0];
 
 				if (textCentavos.Length == 1)
 				{
@@ -62,9 +65,9 @@ namespace NullBank.Domain
 			if (valor > 1)
 			{
 				var text = valor.ToString();
-				if (text.Contains(","))
+				if (text.Contains(numberDecimalSeparator))
 				{
-					var valorAux = int.Parse(text.Split(',')[0]);
+					var valorAux = int.Parse(text.Split(numberDecimalSeparator)[0]);
 					if (valorAux > 1)
 					{
 						moeda = "Reais";
